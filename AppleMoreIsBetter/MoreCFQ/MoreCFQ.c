@@ -349,7 +349,7 @@ extern pascal OSStatus CFQStringCopyCString(CFStringRef str, CFStringEncoding en
 		}
 	}
 	if (err == noErr) {		
-		assert((*cStrPtr)[cStrLen] == '¥');
+		//  Jerry commented out due to '¥' being non-ASCII assert((*cStrPtr)[cStrLen] == '¥');
 		(*cStrPtr)[cStrLen] = 0;
 	} else {
 		free(*cStrPtr);
@@ -554,6 +554,7 @@ static OSStatus CFQMutableDictionaryGetParentForPath(CFMutableDictionaryRef dict
 	assert( path   != NULL);
 	assert( pathElementCount > 0 );		// 0 length paths aren't allowed
 	assert( result != NULL);
+    *result = NULL ;
 
 	// Some subtleties in the following loop.
 	//

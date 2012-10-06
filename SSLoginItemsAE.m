@@ -10,7 +10,7 @@ BOOL SSLoginItemPathsWithAppName(NSString* appName, NSArray** pPaths)
 	NSMutableArray* loginItems = nil ;
 	NSMutableArray** loginItemsPtr = &loginItems;
 	
-	int i;
+	NSInteger i;
 	NSArray* paths = nil ;
 	
 	OSStatus err = LIAECopyLoginItems((CFArrayRef*)loginItemsPtr) ;
@@ -35,7 +35,7 @@ BOOL SSLoginItemPathsWithAppName(NSString* appName, NSArray** pPaths)
 	}
 	else	{
 		result = NO ;
-		NSLog(@"Login Items AE failed in SSGetLoginItemsPathsWithAppName, err %i", err) ;
+		NSLog(@"Login Items AE failed in SSGetLoginItemsPathsWithAppName, err %li", (long)err) ;
 	}
 	
 	[loginItems release];
@@ -49,7 +49,7 @@ enum SSResult SSTryIsLoginItem(NSString* filePath, BOOL* pAnswer, OSStatus* pErr
 	NSMutableArray* loginItems = nil ;
 	NSMutableArray** loginItemsPtr = &loginItems;
 	
-	int i;
+	NSInteger i;
 	
 	if (!pErr) {
 		OSStatus err ;
@@ -59,7 +59,7 @@ enum SSResult SSTryIsLoginItem(NSString* filePath, BOOL* pAnswer, OSStatus* pErr
 	*pErr = LIAECopyLoginItems((CFArrayRef*)loginItemsPtr) ;
 	
 	
-	int iOurIndex = NSNotFound ;
+	NSInteger iOurIndex = NSNotFound ;
 	if (*pErr == noErr)
 	{
 		NSString* executableName = [filePath lastPathComponent] ;
@@ -93,15 +93,15 @@ enum SSResult SSIsLoginItem(NSString* filePath, BOOL* pAnswer)
 		
 		if (result == SSResultFailed) {
 			// Try again, and kill it this time
-			int unsigned oldPID = SSPIDOfRunningExecutableNamed(@"System Events") ;
+			NSUInteger oldPID = SSPIDOfRunningExecutableNamed(@"System Events") ;
 			NSString* msg ;
-			msg = [NSString stringWithFormat:@"Your System Events process (pid=%i) returned error %i to our request for Login Items.  Since it is not working, we would like to kill and then restart your System Events process.  That usually fixes the problem.", oldPID, err] ;
+			msg = [NSString stringWithFormat:@"Your System Events process (pid=%li) returned error l%i to our request for Login Items.  Since it is not working, we would like to kill and then restart your System Events process.  That usually fixes the problem.", (long)oldPID, (long)err] ;
 			NSLog(msg) ;
 			if (oldPID) {
 				SSKillProcess(oldPID, YES) ;
 				result = SSTryIsLoginItem(filePath, pAnswer, &err) ;
 				if (result == SSResultFailed) {
-					msg = [NSString stringWithFormat:@"Still didn't work.  err = %i.", err] ;
+					msg = [NSString stringWithFormat:@"Still didn't work.  err = %li.", (long)err] ;
 					NSLog(msg) ;
 				}
 			}
@@ -120,7 +120,7 @@ enum SSResult SSTryAddDeleteUserLoginItem(NSString* filePath, BOOL hide, BOOL do
 	//CFArrayRef* loginItemsPtr = (CFArrayRef*)&loginItems ;
 	//NSLog(@"%x %x %x %x %x", *loginItems, loginItems, &loginItems, loginItemsPtr, *loginItemsPtr) ;
 	
-	int i;
+	NSInteger i;
 	
 	if (!pErr) {
 		OSStatus err ;
@@ -130,7 +130,7 @@ enum SSResult SSTryAddDeleteUserLoginItem(NSString* filePath, BOOL hide, BOOL do
 	*pErr = LIAECopyLoginItems((CFArrayRef*)loginItemsPtr) ;
 	
 	
-	int iOurIndex = NSNotFound ;
+	NSInteger iOurIndex = NSNotFound ;
 	if (*pErr == noErr)
 	{
 		NSString* executableName = [filePath lastPathComponent] ;
@@ -147,7 +147,7 @@ enum SSResult SSTryAddDeleteUserLoginItem(NSString* filePath, BOOL hide, BOOL do
 	SSLog(5, "SSAddDeleteUserLoginItem: err=%i, iOurIndex=%i, doAdd=%i", *pErr, iOurIndex, doAdd) ;
 	if ((*pErr==noErr) && (iOurIndex==NSNotFound) && doAdd)
 	{
-		// Bookwatchman is not currently a login item but caller wants it in
+		// Bookwatchdog is not currently a login item but caller wants it in
 		// So we add it
 		SSLog(5, "Adding login item") ;
 		NSURL* fileURL = [NSURL fileURLWithPath:filePath] ;
@@ -156,7 +156,7 @@ enum SSResult SSTryAddDeleteUserLoginItem(NSString* filePath, BOOL hide, BOOL do
 	}
 	else if ((*pErr==noErr) && (iOurIndex!=NSNotFound) && !doAdd)
 	{
-		// Bookwatchman is currently a login item but caller wants it out
+		// Bookwatchdog is currently a login item but caller wants it out
 		// So we remove it
 		SSLog(5, "Removing login item") ;
 		*pErr = LIAERemove(iOurIndex) ;
@@ -166,7 +166,7 @@ enum SSResult SSTryAddDeleteUserLoginItem(NSString* filePath, BOOL hide, BOOL do
 	if (*pErr != noErr)
 	{
 		result = SSResultFailed ;
-		NSLog(@"Login Items AE failed, err %i", *pErr) ;
+		NSLog(@"Login Items AE failed, err %li", (long)(*pErr)) ;
 	}
 	
 	[loginItems release];
@@ -186,13 +186,13 @@ enum SSResult SSAddDeleteUserLoginItem(NSString* filePath, BOOL hide, BOOL doAdd
 		
 		if (result == SSResultFailed) {
 			// Try again with dialogs shown to user
-			int unsigned oldPID = SSPIDOfRunningExecutableNamed(@"System Events") ;
+			uint32_t oldPID = SSPIDOfRunningExecutableNamed(@"System Events") ;
 #define SQUAWK_SYSTEM_EVENTS 0
 #if SQUAWK_SYSTEM_EVENTS
-			int alertReturn ;
+			NSInteger alertReturn ;
 			alertReturn = NSRunInformationalAlertPanel(
 													   nil,
-													   [NSString stringWithFormat:@"Your System Events process (pid=%i) returned error %i to our request for Login Items.  Since it is not working, we would like to kill and then restart your System Events process.  That usually fixes the problem.", oldPID, err],
+													   [NSString stringWithFormat:@"Your System Events process (pid=%li) returned error %li to our request for Login Items.  Since it is not working, we would like to kill and then restart your System Events process.  That usually fixes the problem.", (long)oldPID, (long)err],
 													   nil,
 													   [NSString localize:@"cancel"],
 													   nil) ;
@@ -204,7 +204,7 @@ enum SSResult SSAddDeleteUserLoginItem(NSString* filePath, BOOL hide, BOOL doAdd
 					{
 						NSRunInformationalAlertPanel(
 													 [NSString localize:@"sorry"],
-													 [NSString stringWithFormat:@"Still didn't work.  err = %i.", err],
+													 [NSString stringWithFormat:@"Still didn't work.  err = %li.", (long)err],
 													 nil,
 													 nil,
 													 nil) ;

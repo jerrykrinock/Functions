@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 
-int chown_recursive(char * const path, uid_t uid, uid_t gid) {
+int16_t chown_recursive(char * const path, uid_t uid, uid_t gid) {
 	// See man fts(3) for these.  Modify these to do what you want:
 	int fts_options =  FTS_PHYSICAL | FTS_NOCHDIR | FTS_XDEV | FTS_SEEDOT ;
 	

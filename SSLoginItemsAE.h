@@ -1,4 +1,3 @@
-
 BOOL SSLoginItemPathsWithAppName(NSString* appName, NSArray** pPaths) ;
 // appName is the app name being searched for; do NOT include the .app extension
 // Returns NO if LoginItemsAE failed, normally returns YES

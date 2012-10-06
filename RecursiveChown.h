@@ -1,4 +1,5 @@
 #include <unistd.h>  // for uid_t
+#import <inttypes.h>
 
 /*!
  @brief    Wraps chown(2) with fts(3) so that it operates recursively,
@@ -16,4 +17,4 @@
  -2 could ever happen though, because fts_open()
  still returns 0 even if you give it a nonexistent path.
  */
-int chown_recursive(char * const path, uid_t uid, uid_t gid) ;
+int16_t chown_recursive(char * const path, uid_t uid, uid_t gid) ;

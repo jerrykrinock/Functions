@@ -1,6 +1,7 @@
 #define SSY_UNIX_PATH_UTILS_MAX_PATH_CHARS 2047
 
 #include <sys/types.h>
+#import <stdint.h>
 
 /*!
  @brief    Given a unix path, removes the last path component

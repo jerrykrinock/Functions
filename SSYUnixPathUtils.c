@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 int UnixPathParent(char* parent, char* path) {
-	int len = strlen(path) ;
+	int len = (int)strlen(path) ;
 	int i ;
 	short status = -1 ;
 	for (i=(len-2); i>=0; i--) {
