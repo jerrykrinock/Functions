@@ -39,12 +39,12 @@ void ssyasl_set_filter(int level) ;
  @brief    Logs a message to ~/Library/Logs/<__progname>.log, if its given
  level is equal to or severe than the current SSL_ASL priority level
  */
-void ssyasl_log(int level, char* format, ...) ;
+void ssyasl_log(char* progname, int level, char* format, ...) ;
 
 /*!
  @brief    Invokes ssy_log with level ASL_LEVEL_NOTICE
  */
-void ssyasl_note(char* format, ...) ;
+void ssyasl_note(char* progname, char* format, ...) ;
 
 
 /*!

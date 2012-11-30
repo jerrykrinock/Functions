@@ -18,15 +18,20 @@ static char* create_cat_string(char* s1, char* s2) {
     return result ;
 }
 
-char* ssyasl_create_log_path() {
+char* ssyasl_create_log_path(char* progname) {
     char* home = getenv("HOME") ;
     if (home == NULL) {
         // We must be running as root
         home = "" ;
     }
     char* path1 = create_cat_string(home, "/Library/Logs/") ;
-    extern char *__progname;
-    char* path2 = create_cat_string(path1, __progname) ;
+    
+    /* At first, I used the BSD global variable __progname here, cheating
+     by declaring it as extern because it is not declared in the SDK.  Although
+     __programe is defined in the Mac OS X 10.8 runtime, it is not defined in
+     the 10.6 runtime.  Without __progname, we have to pass the stupid
+     parameter progname to this function. */
+    char* path2 = create_cat_string(path1, progname) ;
     free(path1) ;
     char* path = create_cat_string(path2, ".log") ;
     free(path2) ;
@@ -44,10 +49,10 @@ void ssyasl_set_filter(int level) {
     ssyasl_gFilter = level ;
 }
 
-void ssyasl_init() {
+void ssyasl_init(char* progname) {
     ssyasl_gAslClient = asl_open(NULL, NULL, ASL_OPT_STDERR) ;
 
-    char* path = ssyasl_create_log_path() ;
+    char* path = ssyasl_create_log_path(progname) ;
     ssyasl_gFileDescriptor = open(path, FWRITE | O_CREAT | O_APPEND,
                                   S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH) ;
     free(path) ;
@@ -60,9 +65,9 @@ void ssyasl_init() {
     ssyasl_set_filter(ASL_LEVEL_NOTICE) ;
 }
 
-void ssyasl_log(int level, char* format, ...) {
+void ssyasl_log(char* progname, int level, char* format, ...) {
 	if (ssyasl_gAslClient == NULL) {
-        ssyasl_init();
+        ssyasl_init(progname);
     }
     
     if (level <= ssyasl_gFilter) {
@@ -73,9 +78,9 @@ void ssyasl_log(int level, char* format, ...) {
     }
 }
 
-void ssyasl_note(char* format, ...) {
+void ssyasl_note(char* progname, char* format, ...) {
 	if (ssyasl_gAslClient == NULL) {
-        ssyasl_init();
+        ssyasl_init(progname);
     }
     
     int level = ASL_LEVEL_NOTICE ;
