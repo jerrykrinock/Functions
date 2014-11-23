@@ -4,7 +4,8 @@
  Mozilla's Xulrunner dylibs are apparently compiled with the magic  @executable_path
  in their INSTALL_PATH.  A Firefox Add-On linking to the Xulrunner dylibs works when
  run in Firefox because the Xulrunner dylibs are packaged in
- /Applications/Firefox.app/Contents/MacOS/, alongside the executable, firefox-bin.  
+ /Applications/Firefox.app/Contents/MacOS/, alongside the executable,
+ ("firefox-bin" or "firefox").
  
  So, because this tool is linked to these Xulrunner dylibs, you need these Xulrunner
  dylibs to be available at the same relative path as they are in the Firefox package,
