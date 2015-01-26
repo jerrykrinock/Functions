@@ -25,14 +25,14 @@ typedef enum : NSUInteger {
  @param    plainData  Typically you derive this from a string using
  -[NSString dataUsingEncoding:].
  
- @param    publicKey  Typically you derive this from a string that of the form
+ @param    publicKey  Typically you derive this from a string of the form
  -----BEGIN PUBLIC KEY-----
  MIIBIjANB...
  ...AQAB
  -----END PUBLIC KEY-----
  using -[NSString dataUsingEncoding:].
  
- This function uses Apple's Security Transform API, and therefore equires OS X
+ This function uses Apple's Security Transform API, and therefore requires OS X
  10.7 or later.  Does not work in iOS.  Does not use openssl.
  */
 SSYVerifyRSAResult SSYVerifyRSA(
