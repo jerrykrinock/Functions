@@ -11,21 +11,21 @@ SSYVerifyRSAResult SSYVerifyRSA(
     CFErrorRef          errorCF = NULL ;
     
     CFArrayRef keyItems ;
-    OSStatus err = SecItemImport(
-                                 (__bridge CFDataRef)publicKey,
-                                 NULL,
-                                 NULL,
-                                 NULL,
-                                 0,
-                                 NULL,
-                                 NULL,
-                                 &keyItems
-                                 ) ;
-    if (err != noErr) {
+    if (SecItemImport(
+                      (__bridge CFDataRef)publicKey,
+                      NULL,
+                      NULL,
+                      NULL,
+                      0,
+                      NULL,
+                      NULL,
+                      &keyItems
+                      ) != noErr) {
         result = SSYVerifyRSAResultCouldNotImportPublicKey ;
     }
     
     SecKeyRef publicSecKeyRef = NULL ;
+
     if (result == SSYVerifyRSAResultInProgress) {
         publicSecKeyRef = (SecKeyRef)[(NSArray*)keyItems firstObject] ;
         if (publicSecKeyRef == NULL) {
@@ -33,7 +33,8 @@ SSYVerifyRSAResult SSYVerifyRSA(
         }
     }
     
-    SecTransformRef     transform = NULL ;
+    SecTransformRef transform = NULL ;
+
     if (result == SSYVerifyRSAResultInProgress) {
         transform = SecVerifyTransformCreate(
                                              publicSecKeyRef,
@@ -69,7 +70,7 @@ SSYVerifyRSAResult SSYVerifyRSA(
         }
     }
     
-    CFBooleanRef        transformResult = NULL ;
+    CFBooleanRef transformResult = NULL ;
     if (result == SSYVerifyRSAResultInProgress) {
         transformResult = SecTransformExecute(transform, &errorCF) ;
         if (transformResult == NULL) {
