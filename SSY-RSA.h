@@ -33,10 +33,13 @@ typedef enum : NSUInteger {
  using -[NSString dataUsingEncoding:].
  
  This function uses Apple's Security Transform API, and therefore requires OS X
- 10.7 or later.  Does not work in iOS.  Does not use openssl.
+ 10.7 or later.  Does not use openssl.
  
  This code is based on Apple's CryptoCompatibility sample code, which may be
  helpful in forking this code for similar purposes.
+
+ Does not work in iOS.   For iOS, read this:
+ http://stackoverflow.com/questions/21724337/signing-and-verifying-on-ios-using-rsa
  */
 SSYVerifyRSAResult SSYVerifyRSA(
                                 NSData* plainData,
