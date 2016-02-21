@@ -2,7 +2,7 @@
 
 /* 
  Mozilla's Xulrunner dylibs are apparently compiled with the magic  @executable_path
- in their INSTALL_PATH.  A Firefox Add-On linking to the Xulrunner dylibs works when
+ in their INSTALL_PATH.  A Firefox Extension linking to the Xulrunner dylibs works when
  run in Firefox because the Xulrunner dylibs are packaged in
  /Applications/Firefox.app/Contents/MacOS/, alongside the executable,
  ("firefox-bin" or "firefox").
