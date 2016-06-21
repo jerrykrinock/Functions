@@ -32,7 +32,7 @@ typedef enum : NSUInteger {
  -----END PUBLIC KEY-----
  using -[NSString dataUsingEncoding:].
  
- This function uses Apple's Security Transform API, and therefore requires OS X
+ This function uses Apple's Security Transform API, and therefore requires macOS
  10.7 or later.  Does not use openssl.
  
  This code is based on Apple's CryptoCompatibility sample code, which may be

@@ -28,7 +28,7 @@ char* ssyasl_create_log_path(char* progname) {
     
     /* At first, I used the BSD global variable __progname here, cheating
      by declaring it as extern because it is not declared in the SDK.  Although
-     __programe is defined in the Mac OS X 10.8 runtime, it is not defined in
+     __programe is defined in the macOS 10.8 runtime, it is not defined in
      the 10.6 runtime.  Without __progname, we have to pass the stupid
      parameter progname to this function. */
     char* path2 = create_cat_string(path1, progname) ;
