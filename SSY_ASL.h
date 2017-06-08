@@ -58,6 +58,6 @@ void ssyasl_note(char* progname, char* format, ...) ;
  Since the system closes open file descriptors when a program exits, it is
  not really necessary to ever use this function.
  */
-void ssyasl_close() ;
+void ssyasl_close(void) ;
 
 #endif

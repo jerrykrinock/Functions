@@ -92,7 +92,7 @@ void ssyasl_note(char* progname, char* format, ...) {
     }
 }
 
-void ssyasl_close() {
+void ssyasl_close(void) {
     if (ssyasl_gAslClient != NULL) {
         asl_close(ssyasl_gAslClient) ;
         ssyasl_gAslClient = NULL ;
