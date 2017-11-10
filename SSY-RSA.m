@@ -92,7 +92,7 @@ SSYVerifyRSAResult SSYVerifyRSA(
     
     if (errorCF && error_p) {
         *error_p = (NSError*)errorCF ;
-#if NO_ARC
+#if !__has_feature(objc_arc)
         [[*error_p retain] autorelease] ;
 #endif
     }
@@ -106,7 +106,7 @@ SSYVerifyRSAResult SSYVerifyRSA(
     string = [[NSString alloc] initWithData:plainData
                                    encoding:NSASCIIStringEncoding] ;
     NSLog(@"SSYRSAVerify: plainData:\n%@", string) ;
-#if NO_ARC
+#if !__has_feature(objc_arc)
     [string release] ;
 #endif
 
@@ -117,7 +117,7 @@ SSYVerifyRSAResult SSYVerifyRSA(
     string = [[NSString alloc] initWithData:publicKey
                                    encoding:NSASCIIStringEncoding] ;
     NSLog(@"SSYRSAVerify: publicKey:\n%@", string) ;
-#if NO_ARC
+#if !__has_feature(objc_arc)
     [string release] ;
 #endif
     
